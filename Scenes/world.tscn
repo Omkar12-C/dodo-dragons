@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://c6sa8wldjbvll"]
+
+[ext_resource type="Script" uid="uid://ca2bkasd0qgu0" path="res://Scripts/Player/player.gd" id="1_a02cp"]
+[ext_resource type="Script" uid="uid://bonc1qawak4bo" path="res://Scripts/Player/camera_movement.gd" id="2_go701"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2ccy0"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_o3cdx"]
+sky_material = SubResource("ProceduralSkyMaterial_2ccy0")
+
+[sub_resource type="Environment" id="Environment_qsqi5"]
+background_mode = 2
+sky = SubResource("Sky_o3cdx")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_o3cdx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qsqi5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tm4x4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n5c3s"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_m1g0v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_15jq6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m1g0v"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2ccy0"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_2ccy0"]
+
+[node name="World" type="Node3D" unique_id=948268400]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=854319160]
+environment = SubResource("Environment_qsqi5")
+
+[node name="Map" type="Node3D" parent="." unique_id=1498393893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.52008, 0, 17.6317)
+
+[node name="Floor" type="MeshInstance3D" parent="Map" unique_id=2019978059]
+transform = Transform3D(-4.371139e-06, 0, 100, 0, 1, 0, -100, 0, -4.371139e-06, -2.3103514, 0, -1.9296789)
+mesh = SubResource("BoxMesh_o3cdx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Floor" unique_id=1692513027]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Floor/StaticBody3D" unique_id=823921922]
+shape = SubResource("BoxShape3D_qsqi5")
+
+[node name="slide" type="MeshInstance3D" parent="Map" unique_id=294170396]
+transform = Transform3D(-2.4591773e-07, -0.3422997, 7.3295994, 0, 0.5972056, 4.2010994, -5.6259427, -2.8357157e-09, -4.4558954e-07, -5.3047686, 2.2434134, -1.9296789)
+mesh = SubResource("BoxMesh_tm4x4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/slide" unique_id=1519693687]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/slide/StaticBody3D" unique_id=502556251]
+shape = SubResource("BoxShape3D_n5c3s")
+
+[node name="box" type="MeshInstance3D" parent="Map" unique_id=630668595]
+transform = Transform3D(-4.837319e-07, 0, 6.7386565, 0, 4.956224, 0, -11.066498, 0, -2.9455606e-07, 1.5814753, 2.1373296, -1.9296789)
+mesh = SubResource("BoxMesh_m1g0v")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/box" unique_id=1530118465]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/box/StaticBody3D" unique_id=900375907]
+transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_15jq6")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1067573557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.507253, 4.611006, 15.271915)
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_a02cp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=395757206]
+transform = Transform3D(1, 0, 0, 0, 1, -2.5762971e-14, 0, 2.5762971e-14, 1, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_m1g0v")
+
+[node name="Body" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1831191041]
+mesh = SubResource("CapsuleMesh_2ccy0")
+
+[node name="RayCast3D" type="RayCast3D" parent="CharacterBody3D/Body" unique_id=141706908]
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=2211209 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 0.79462665, 0.6070985, 0, -0.6070985, 0.79462665, -12.507253, 17.14811, 27.601063)
+top_level = true
+current = true
+script = ExtResource("2_go701")
+target = NodePath("..")
+speed = 2.63
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CharacterBody3D" unique_id=2090180302]
+collision_mask = 0
+shape = SubResource("SeparationRayShape3D_2ccy0")
+spring_length = 3.07
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1793936203]
+transform = Transform3D(0.61899227, -0.6529583, -0.43645692, 0.5762612, -3.572382e-08, 0.8172658, -0.5336402, -0.7573941, 0.37627435, -27.043085, 24.936928, -1.2342682)
+light_color = Color(0.9754825, 0.9671177, 0.9443838, 1)
