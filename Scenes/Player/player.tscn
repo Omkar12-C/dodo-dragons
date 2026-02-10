@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bwx86abgixcps"]
+
+[ext_resource type="Script" uid="uid://ca2bkasd0qgu0" path="res://Scripts/Player/player.gd" id="1_cvnsp"]
+[ext_resource type="Script" uid="uid://bonc1qawak4bo" path="res://Scripts/Player/camera_movement.gd" id="2_6t5aa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_go701"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_go701"]
+albedo_color = Color(0.42985138, 0.64217275, 0.31077886, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5a7ea"]
+material = SubResource("StandardMaterial3D_go701")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a3d8c"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1809952300]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_cvnsp")
+move_pause = 0.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1335126694]
+transform = Transform3D(1, 0, 0, 0, 1, -2.5762971e-14, 0, 2.5762971e-14, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_go701")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1837634070 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 0.79462665, 0.6070985, 0, -0.6070985, 0.79462665, 0, 8.175, 10.09)
+top_level = true
+current = true
+fov = 50.0
+script = ExtResource("2_6t5aa")
+target = NodePath("..")
+speed = 2.63
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=665290012]
+mesh = SubResource("BoxMesh_5a7ea")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=844015895]
+transform = Transform3D(-4.3053134e-08, 0, -0.98381114, 0, 0.3263455, 0, 0.9849409, 0, -4.3003748e-08, 0, 0.154, 0.114)
+mesh = SubResource("CapsuleMesh_a3d8c")
+
+[node name="Raycasts" type="Node3D" parent="." unique_id=1253555561]
+
+[node name="Front" type="RayCast3D" parent="Raycasts" unique_id=139643546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.522)
+target_position = Vector3(0, 0, 0.8)
+
+[node name="MovementTimer" type="Timer" parent="." unique_id=1303842883]
+one_shot = true

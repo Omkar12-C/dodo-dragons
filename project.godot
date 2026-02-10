@@ -14,10 +14,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="third person"
+config/name="Multiverse Puzzler"
 run/main_scene="uid://c6sa8wldjbvll"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[debug]
+
+gdscript/warnings/unassigned_variable=0
 
 [input]
 
